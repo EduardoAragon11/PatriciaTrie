@@ -114,7 +114,7 @@ class PatriciaTrie {
         }
     
         if (node.right != null) {
-            fill(0);
+            stroke(100);
             line(x, y, x + xOffset, y + 75);
             drawTree(node.right, x + xOffset, y + 75, xOffset / 2, level + 1);
         }
