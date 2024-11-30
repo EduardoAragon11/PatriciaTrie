@@ -1,36 +1,45 @@
+import java.util.List;
+import java.util.ArrayList;
+
 PatriciaTrie trie;
 String input = "";
 boolean isInsertMode = true;
-String[] results; // Arreglo de resultados
+List<String> results; // Lista de resultados
 String noResultMessage = "No matches found."; // Mensaje para resultados vacíos
 
 void setup() {
-    size(1800, 1000);
+    size(1900, 1000);
     trie = new PatriciaTrie();
-    results = new String[0]; // Inicializar resultados vacíos
+    results = new ArrayList<>();
 }
 
 void draw() {
-    background(255);
+    background(240); // Fondo gris claro
     textSize(16);
     fill(0);
     text("Mode: " + (isInsertMode ? "Insert" : "Search"), 50, 30);
     text("Input: " + input, 50, 50);
     text("Encoded: " + encodeString(input), 50, 80);
-    
+
     if (!isInsertMode) {
         text("Search Results:", 50, 110);
-        if (results.length == 0) {
-            text(noResultMessage, 50, 140); // Mostrar mensaje si no hay resultados
+        if (results.isEmpty()) {
+            fill(255, 0, 0); // Rojo para mensajes de error
+            text(noResultMessage, 50, 140);
         } else {
             int yOffset = 140;
+            fill(0); // Negro para resultados
             for (String res : results) {
-                text("- " + res, 50, yOffset); // Mostrar cada resultado
-                yOffset += 20; // Incrementar espacio entre líneas
+                text("- " + res, 50, yOffset);
+                yOffset += 20;
             }
         }
     }
-    trie.draw();
+
+    // Dibujar el trie
+    if (trie.root != null) {
+        trie.drawTree(trie.root, width / 2, 100, width / 4, 0);
+    }
 }
 
 void keyPressed() {
@@ -49,7 +58,7 @@ void keyPressed() {
         // Ignorar teclas codificadas
     } else if (key == ' ') {
         isInsertMode = !isInsertMode;
-        results = new String[0]; // Limpiar resultados al cambiar de modo
+        results.clear(); // Limpiar resultados al cambiar de modo
         input = "";
     } else {
         input += key;

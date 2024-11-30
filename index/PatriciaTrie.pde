@@ -100,31 +100,46 @@ class PatriciaTrie {
         return minLength;
     }
 
-    // Dibujar el Patricia Tree
+      // Dibujar el Patricia Trie
     void drawTree(Node node, float x, float y, float xOffset, int level) {
         if (node == null) return;
-
+    
+        // Dibujar líneas hacia los hijos
+        stroke(100); // Color de las líneas
+        strokeWeight(2); // Grosor de las líneas
+    
         if (node.left != null) {
             line(x, y, x - xOffset, y + 75);
             drawTree(node.left, x - xOffset, y + 75, xOffset / 2, level + 1);
         }
-
+    
         if (node.right != null) {
+            fill(0);
             line(x, y, x + xOffset, y + 75);
             drawTree(node.right, x + xOffset, y + 75, xOffset / 2, level + 1);
         }
-        fill(255);
-        circle(x, y, 20 - level);
-        fill(0);
+    
+        // Dibujar el nodo
+        noStroke();
         if (node.isLeaf) {
-            text(node.value, x - 4 * node.value.length(), y + 30);
+            fill(102, 205, 170); // Color verde claro para hojas
         } else {
-            text(node.bin, x - 3 * node.bin.length(), y + 30);
+            fill(135, 206, 250); // Color azul claro para nodos internos
+        }
+    
+        circle(x, y, 40); // Nodo más grande y consistente
+    
+        // Dibujar texto en el nodo
+        fill(0); // Texto en negro
+        textSize(12); // Tamaño del texto/
+        textAlign(CENTER, CENTER);
+    
+        if (node.isLeaf) {
+            text(node.value, x, y); // Mostrar valor en nodos hoja
+        } else {
+            text(node.bin, x, y); // Mostrar binario en nodos internos
         }
         
-    }
-
-    void draw() {
-        drawTree(root, width / 2, 50, width / 4, 0);
+        textAlign(LEFT,LEFT);
     }
 }
